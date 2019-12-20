@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import {Switch,HashRouter,BrowserRouter,Route,Redirect,withRouter}  from 'react-router-dom'
-import home from '../pages/home/home'
-import city from '../pages/city/city'
+import {Switch,BrowserRouter,Route,Redirect,withRouter}  from 'react-router-dom'
+import Main from '../pages/main/main'
+import Login from '../pages/login/login'
+import Register from '../pages/register/register'
 
 class RouterConfig extends Component{
   render(){
     return(
       <BrowserRouter>
         <Switch>
-          <Route path="/" exact component={home}></Route>
-          <Route path="/city/:id" component={city}></Route>
+          <Route path="/login" component={Login}></Route>
+          <Route path="/register" component={Register}></Route>
+          <Route component={Main}></Route>
         </Switch>
       </BrowserRouter>
     )

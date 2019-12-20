@@ -464,7 +464,7 @@ module.exports = function(webpackEnv) {
                       sourceMap: true,
                       modifyVars: {
                           "@brand-primary":"#1cae82",
-                          "@brand-primary-tab":"#1da57a"
+                          "@brand-primary-tap":"#1da57a"
                       },
                       javascriptEnabled: true,
                   }
