@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {Switch,BrowserRouter,Route,Redirect,withRouter}  from 'react-router-dom'
-import Main from '../pages/main/main'
-import Login from '../pages/login/login'
-import Register from '../pages/register/register'
+import Main from '../containers/main/main'
+import Login from '../containers/login/login'
+import Register from '../containers/register/register'
 
 class RouterConfig extends Component{
   render(){
