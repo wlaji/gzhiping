@@ -5,7 +5,7 @@ import * as serviceWorker from './serviceWorker'
 import FastClick from 'fastclick'
 import {Provider} from 'react-redux'
 import store from './redux/store'
-import './style/public.css'
+import './assets/style/public.css'
 
 FastClick.attach(document.body);
 ReactDOM.render((
