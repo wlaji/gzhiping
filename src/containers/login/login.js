@@ -3,7 +3,7 @@ export default class Login extends Component{
   render(){
     return(
       <div>
-        登录
+        登录...321321321
       </div>
     )
   }
