@@ -45,7 +45,7 @@ export default class Login extends Component {
             <WhiteSpace/>
             <Button type="primary" onClick={this.register}>登录</Button>
             <WhiteSpace/>
-            <Button onClick={this.toRegister}>还没有账户</Button>  
+            <Button onClick={this.toRegister}>还没有账户?</Button>  
           </List>    
         </WingBlank>
       </div>
