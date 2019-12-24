@@ -8,12 +8,15 @@ import {
   Radio,
   Button,
 } from 'antd-mobile'
+import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
+import {register} from '../../redux/actions'
 import Logo from '../../components/logo/logo'
 import './register.less'
 
 const Item = List.Item;
 
-export default class Register extends Component {
+class Register extends Component {
   state={
     username:'',//用户名
     password:'',//密码
@@ -21,7 +24,7 @@ export default class Register extends Component {
     type:'laoban',//用户类型
   }
   register=()=>{
-    console.log(this.state)
+    this.props.register(this.state);
   }
   handleChange=(name,val)=>{
     this.setState({
@@ -33,6 +36,10 @@ export default class Register extends Component {
   }
   render() {
     const {type} = this.state;
+    const {msg,redirectTo} = this.props.user;
+    if(redirectTo){
+      return <Redirect to={redirectTo}/>
+    }
     return (
       <div>
         <NavBar
@@ -41,6 +48,7 @@ export default class Register extends Component {
         <Logo />
         <WingBlank>
           <List>
+            {msg? <div className="error-msg">{msg}</div> : null}
             <InputItem onChange={val=>{this.handleChange('username',val)}}>
               用户名:
             </InputItem>
@@ -68,3 +76,12 @@ export default class Register extends Component {
     )
   }
 }
+
+export default connect(
+  state=>{
+    return {
+      user:state.user
+    }
+  },
+  {register}
+)(Register)

@@ -1,24 +1,20 @@
 import axios from "axios";
+let baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:8000' : 'https://sticker.gs-souvenir.com';
+let timeOut = 20000;
 
-axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+// 基本配置
+axios.defaults.timeout = timeOut;
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.baseURL = baseUrl;
 
 axios.interceptors.request.use(config => {
   return config;
 }, err => {
-  Message.error({message: 'The request timeout!'});
   return Promise.resolve(err);
 });
-
 axios.interceptors.response.use(data => {
-  if (data.status && data.status === 200 && data.data.ret === 0) {
-    
-  }
-  if (data.status && data.status === 200 && data.data.ret === 401) {
-  
-  }
   return data;
 }, err => {
-
   return Promise.reject(err.response.data);
 });
 
