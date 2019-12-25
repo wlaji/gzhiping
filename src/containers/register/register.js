@@ -9,6 +9,7 @@ import {
   Button,
 } from 'antd-mobile'
 import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 import {register} from '../../redux/actions'
 import Logo from '../../components/logo/logo'
 import './register.less'
@@ -35,6 +36,10 @@ class Register extends Component {
   }
   render() {
     const {type} = this.state;
+    const {msg,redirectTo} = this.props.user;
+    if(redirectTo){
+      return <Redirect to={redirectTo}/>
+    }
     return (
       <div>
         <NavBar
@@ -43,6 +48,7 @@ class Register extends Component {
         <Logo />
         <WingBlank>
           <List>
+            {msg? <div className="error-msg">{msg}</div> : null}
             <InputItem onChange={val=>{this.handleChange('username',val)}}>
               用户名:
             </InputItem>
@@ -73,7 +79,9 @@ class Register extends Component {
 
 export default connect(
   state=>{
-    return null
+    return {
+      user:state.user
+    }
   },
   {register}
 )(Register)

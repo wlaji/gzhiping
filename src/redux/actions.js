@@ -10,7 +10,13 @@ const errorMsg=(msg)=>{
 }
 
 export const register=(user)=>{
+  console.log(user)
   const {username,password,password2,type} = user;
+  const postData={
+    username,
+    password,
+    type
+  }
   if(!username){
     return errorMsg('用户名必须指定')
   }else if(!password){
@@ -19,7 +25,7 @@ export const register=(user)=>{
     return errorMsg('密码输入不一致')
   }
   return async dispatch=>{
-    const res = await reqRegister(username,password,type);
+    const res = await reqRegister(postData);
     const result=res.data;
     if(result.code===0){
       //注册成功

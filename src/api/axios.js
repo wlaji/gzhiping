@@ -1,5 +1,5 @@
 import axios from "axios";
-let baseUrl = process.env.NODE_ENV === 'development' ? 'localhost:8000' : 'https://sticker.gs-souvenir.com';
+let baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:8000' : 'https://sticker.gs-souvenir.com';
 let timeOut = 20000;
 
 // 基本配置
