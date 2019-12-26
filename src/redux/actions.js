@@ -1,5 +1,5 @@
-import {AUTH_SUCCESS,ERROR_MSG} from './action-types';
-import {reqLogin,reqRegister} from '../api/index';
+import {AUTH_SUCCESS,ERROR_MSG,RECEIVE_USER,RESET_USER} from './action-types';
+import {reqLogin,reqRegister, reqUpdate} from '../api/index';
 
 const authSuccess=(user)=>{
   return {type:AUTH_SUCCESS,data:user}
@@ -7,6 +7,14 @@ const authSuccess=(user)=>{
 
 const errorMsg=(msg)=>{
   return {type:ERROR_MSG,data:msg}
+}
+
+const receiveUser=(user)=>{
+  return {type:RECEIVE_USER,data:user}
+}
+
+const resetUser=(user)=>{
+  return {type:RESET_USER,data:user}
 }
 
 export const register=(user)=>{
@@ -53,6 +61,18 @@ export const login=(user)=>{
     }else{
       //登录失败
       dispatch(errorMsg(result.msg))
+    }
+  }
+}
+
+export const updateUser=(user)=>{
+  return async dispatch=>{
+    const res = await reqUpdate(user);
+    const result=res.data;
+    if(result.code===0){
+      dispatch(receiveUser(result.data))
+    }else{
+      dispatch(resetUser(result.msg))
     }
   }
 }

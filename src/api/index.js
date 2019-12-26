@@ -7,3 +7,7 @@ export const reqRegister=(postData)=>{
 export const reqLogin=(postData)=>{
   return axios.post('/login',postData)
 }
+
+export const reqUpdate=(postData)=>{
+  return axios.post('/update',postData)
+}

@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
 import {Switch,Route} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 import LaobanInfo from '../laoban-info/laoban-info'
 import DashenInfo from '../dashen-info/dashen-info'
-export default class Main extends Component{
+class Main extends Component{
   render(){
+    const {user} = this.props;
+    if(!user._id){
+      return <Redirect to="/login"/>
+    }
     return(
       <div>
         <Switch>
@@ -14,3 +20,10 @@ export default class Main extends Component{
     )
   }
 }
+export default connect(
+  state=>{
+    return{
+      user:state.user
+    }
+  }
+)(Main)
