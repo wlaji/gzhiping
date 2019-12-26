@@ -4,6 +4,7 @@ let timeOut = 20000;
 
 // 基本配置
 axios.defaults.timeout = timeOut;
+axios.defaults.withCredentials = true
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.baseURL = baseUrl;
 
