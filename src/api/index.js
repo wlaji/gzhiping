@@ -11,3 +11,7 @@ export const reqLogin=(postData)=>{
 export const reqUpdate=(postData)=>{
   return axios.post('/update',postData)
 }
+
+export const reqUser=()=>{
+  return axios.get('/user')
+}
