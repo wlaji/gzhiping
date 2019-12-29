@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import './icon.js';
-
-
+import MyIcon from '../myIcon/myIcon'
 class NavFooter extends Component{
   render(){
     return(
       <div>
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-dashen"></use>
-        </svg>
+         <MyIcon type="laoban" /> 
       </div>
     )
   }
