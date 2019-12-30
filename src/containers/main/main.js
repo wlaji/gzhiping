@@ -21,7 +21,7 @@ import { getRedirectTo } from '../../utils/index'
 import { getUser } from '../../redux/actions'
 
 class Main extends Component {
-  navlist = [
+  navList = [
     {
       path: '/laoban',
       component: Laoban,
@@ -82,17 +82,27 @@ class Main extends Component {
         return <Redirect to={path} />
       }
     }
-    const { navlist } = this;
+    const { navList } = this;
     const path = this.props.location.pathname;
-    const currentNav = navlist.find(nav => {
+    const currentNav = navList.find(nav => {
       return nav.path === path
     })
+
+    if (currentNav) {
+      const { type } = user;
+      if (type === 'laoban') {
+        navList[1].hide = true;
+      } else if (type === 'dashen') {
+        navList[0].hide = true;
+      }
+    }
+
     return (
       <div>
         {currentNav ? <NavBar>{currentNav.title}</NavBar> : null}
         <Switch>
           {
-            navlist.map((nav,index)=>{
+            navList.map((nav, index) => {
               return <Route path={nav.path} component={nav.component} key={index}></Route>
             })
           }
@@ -100,8 +110,8 @@ class Main extends Component {
           <Route path="/dasheninfo" component={DashenInfo}></Route>
           <Route component={Notfound}></Route>
         </Switch>
-        
-        {currentNav ? <NavFooter></NavFooter> : null}
+
+        {currentNav ? <NavFooter navList={this.navList}></NavFooter> : null}
       </div>
     )
   }
