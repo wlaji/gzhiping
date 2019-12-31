@@ -90,11 +90,12 @@ const put = (url, params) => {
   });
 };
 
-const get = url => {
+const get = (url,params) => {
   return new Promise((resolve, reject) => {
     axios({
       method: "get",
-      url: url
+      url: url,
+      params: params
     })
       .then(res => {
         resolve(res);

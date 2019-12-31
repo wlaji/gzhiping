@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import Cookies from 'js-cookie'
+import {resetUser} from '../../redux/actions'
 import {
   Result,
   List,
   Button,
   WhiteSpace,
+  Modal,
 } from 'antd-mobile';
 
 const Item = List.Item;
@@ -13,7 +16,15 @@ const Brief = Item.Brief;
 class Personal extends Component {
 
   logOut=()=>{
-
+    Modal.alert('退出','确认退出登录吗?',[
+      { text: 'Cancel'},
+      { text: 'Ok',
+        onPress: () => {
+          Cookies.remove('userid');
+          this.props.resetUser();
+        }
+      },
+    ])
   }
   
   render() {
@@ -21,9 +32,9 @@ class Personal extends Component {
     return (
       <div>
         <Result
-          img={<img src={require(`../../assets/images/${header}.png`)} />}
+          img={<img src={require(`../../assets/images/${header}.png`)} alt={username} />}
           title={username}
-          message={company}>
+          message={company+`(${type})`}>
         </Result>
         <List renderHeader={() => '相关信息'}>
           <Item multipleLine>
@@ -49,5 +60,6 @@ export default connect(
     return {
       user: state.user
     }
-  }
+  },
+  {resetUser}
 )(Personal)

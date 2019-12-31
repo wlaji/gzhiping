@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom'
 import {
   NavBar
 } from 'antd-mobile'
-
+import './main.less'
 
 import LaobanInfo from '../laoban-info/laoban-info'
 import DashenInfo from '../dashen-info/dashen-info'
@@ -15,7 +15,6 @@ import Message from '../message/message'
 import Personal from '../personal/personal'
 import Notfound from '../../components/not-found/not-found'
 import NavFooter from '../../components/nav-footer/nav-footer'
-
 import Cookies from 'js-cookie'
 import { getRedirectTo } from '../../utils/index'
 import { getUser } from '../../redux/actions'
@@ -24,14 +23,14 @@ class Main extends Component {
   navList = [
     {
       path: '/laoban',
-      component: Laoban,
+      component: Dashen,
       title: "大神列表",
       icon: 'dashen',
       text: '大神'
     },
     {
       path: '/dashen',
-      component: Dashen,
+      component: Laoban,
       title: "老板列表",
       icon: 'laoban',
       text: '老板'
@@ -99,7 +98,7 @@ class Main extends Component {
 
     return (
       <div>
-        {currentNav ? <NavBar>{currentNav.title}</NavBar> : null}
+        {currentNav ? <NavBar className="sticky-header">{currentNav.title}</NavBar> : null}
         <Switch>
           {
             navList.map((nav, index) => {
