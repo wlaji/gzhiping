@@ -19,7 +19,7 @@ class NavFooter extends Component {
     const path = this.props.location.pathname;
     return (
       <div>
-        <TabBar>
+        <TabBar tintColor="#1cae82">
           {
             navList.map((nav, index) => {
               return (

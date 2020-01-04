@@ -19,3 +19,11 @@ export const reqUser=()=>{
 export const reqUserList=(type)=>{
   return axios.get('/userlist',{type})
 }
+
+export const reqChatMsgList=()=>{
+  return axios.get('/msglist')
+}
+
+export const reqReadMsg=(from)=>{
+  return axios.post('/readmsg',{from})
+}

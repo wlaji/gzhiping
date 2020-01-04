@@ -1,9 +1,12 @@
+import IO from 'socket.io-client'
 import {
   AUTH_SUCCESS,
   ERROR_MSG,
   RECEIVE_USER,
   RESET_USER,
-  RESET_USER_LIST,
+  RECEIVE_USER_LIST,
+  RECEIVE_MSG_LIST,
+  RECEIVE_MSG,
 } from './action-types';
 import {
   reqLogin,
@@ -11,7 +14,22 @@ import {
   reqUpdate, 
   reqUser,
   reqUserList,
+  reqChatMsgList,
+  reqReadMsg,
 } from '../api/index';
+
+function initIO(dispatch,userid){
+  if(!IO.socket){
+    IO.socket=IO('ws://192.168.10.131:8000');
+    IO.socket.on('receiveMsg',function(chatMsg){
+      console.log('浏览器接收到消息:',chatMsg)
+      if(userid===chatMsg.from || userid===chatMsg.to){
+        dispatch(receiveMsg(chatMsg))
+      }
+    })
+  }
+}
+
 
 const authSuccess=(user)=>{
   return {type:AUTH_SUCCESS,data:user}
@@ -29,9 +47,18 @@ export const resetUser=(user)=>{
   return {type:RESET_USER,data:user}
 }
 
-export const receiveUserList=(userList)=>{
-  return {type:RESET_USER_LIST,data:userList}
+const receiveUserList=(userList)=>{
+  return {type:RECEIVE_USER_LIST,data:userList}
 }
+
+const receiveMsgList=({users,chatMsgs})=>{
+  return {type:RECEIVE_MSG_LIST,data:{users,chatMsgs}}
+}
+
+const receiveMsg=(chatMsg)=>{
+  return {type:RECEIVE_MSG,data:chatMsg}
+}
+
 
 export const register=(user)=>{
   console.log(user)
@@ -53,6 +80,7 @@ export const register=(user)=>{
     const result=res.data;
     if(result.code===0){
       //注册成功
+      getMsgList(dispatch,result.data._id);
       dispatch(authSuccess(result.data))
     }else{
       //注册失败
@@ -73,6 +101,7 @@ export const login=(user)=>{
     const result=res.data;
     if(result.code===0){
       //登录成功
+      getMsgList(dispatch,result.data._id);
       dispatch(authSuccess(result.data))
     }else{
       //登录失败
@@ -98,6 +127,7 @@ export const getUser=()=>{
     const res = await reqUser();
     const result=res.data;
     if(result.code===0){
+      getMsgList(dispatch,result.data._id);
       dispatch(receiveUser(result.data))
     }else{
       dispatch(resetUser(result.msg))
@@ -112,5 +142,23 @@ export const getUserList=(type)=>{
     if(result.code===0){
       dispatch(receiveUserList(result.data))
     }
+  }
+}
+
+async function getMsgList(dispatch,userid){
+  initIO(dispatch,userid);
+  const res = await reqChatMsgList();
+  const result = res.data;
+  if(result.code===0){
+    const {users,chatMsgs} = result.data;
+    //分发同步action
+    dispatch(receiveMsgList({users,chatMsgs}))
+  }
+}
+
+export const sendMsg=({from,to,content})=>{
+  return async dispatch=>{
+    console.log('发送消息',{from,to,content})
+    IO.socket.emit('sendMsg',{from,to,content})
   }
 }

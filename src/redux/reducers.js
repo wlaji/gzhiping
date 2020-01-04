@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
-import { 
-  AUTH_SUCCESS, 
-  ERROR_MSG, 
-  RESET_USER, 
+import {
+  AUTH_SUCCESS,
+  ERROR_MSG,
+  RESET_USER,
   RECEIVE_USER,
-  RESET_USER_LIST,
+  RECEIVE_USER_LIST,
+  RECEIVE_MSG_LIST,
+  RECEIVE_MSG
 } from './action-types'
 import { getRedirectTo } from '../utils/index'
 import { resetUser } from './actions';
@@ -24,7 +26,7 @@ function user(state = initUser, action) {
     case RECEIVE_USER:
       return action.data
     case RESET_USER:
-      return {...initUser,msg:action.data}
+      return { ...initUser, msg: action.data }
     default:
       return state;
   }
@@ -32,8 +34,35 @@ function user(state = initUser, action) {
 
 function userList(state = [], action) {
   switch (action.type) {
-    case RESET_USER_LIST:
+    case RECEIVE_USER_LIST:
       return action.data;
+    default:
+      return state;
+  }
+}
+
+const initChat = {
+  users: {},
+  chatMsgs: [],
+  unReadCount: 0//总的未读数量
+}
+
+function chat(state = initChat, action) {
+  switch (action.type) {
+    case RECEIVE_MSG_LIST:
+      const { users, chatMsgs } = action.data
+      return {
+        users,
+        chatMsgs,
+        unReadCount: 0
+      }
+    case RECEIVE_MSG:
+      const chatMsg = action.data
+      return {
+        users:state.users,
+        chatMsgs:[...state.chatMsgs,chatMsg],
+        unReadCount: 0
+      }
     default:
       return state;
   }
@@ -41,5 +70,6 @@ function userList(state = [], action) {
 
 export default combineReducers({
   user,
-  userList
+  userList,
+  chat
 })

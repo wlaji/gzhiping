@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import Cookies from 'js-cookie'
 import {
   NavBar
 } from 'antd-mobile'
@@ -13,9 +14,11 @@ import Dashen from '../dashen/dashen'
 import Laoban from '../laoban/laoban'
 import Message from '../message/message'
 import Personal from '../personal/personal'
+import Chat from '../chat/chat'
 import Notfound from '../../components/not-found/not-found'
 import NavFooter from '../../components/nav-footer/nav-footer'
-import Cookies from 'js-cookie'
+
+
 import { getRedirectTo } from '../../utils/index'
 import { getUser } from '../../redux/actions'
 
@@ -54,7 +57,6 @@ class Main extends Component {
   componentDidMount() {
     //登录过，但是没有登录信息，发请求获取对应的user
     const userid = Cookies.get('userid');
-    console.log(userid)
     const { _id } = this.props.user;
     if (userid && !_id) {
       this.props.getUser();
@@ -107,6 +109,7 @@ class Main extends Component {
           }
           <Route path="/laobaninfo" component={LaobanInfo}></Route>
           <Route path="/dasheninfo" component={DashenInfo}></Route>
+          <Route path="/chat/:userid" component={Chat}></Route>
           <Route component={Notfound}></Route>
         </Switch>
 

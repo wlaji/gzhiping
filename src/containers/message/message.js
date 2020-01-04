@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 class Message extends Component{
   render(){
     return(
-      <div>
+      <div style={{paddingTop:'45px',paddingBottom:'50px'}}>
         Message
       </div>
     )
