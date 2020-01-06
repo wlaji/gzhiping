@@ -71,7 +71,7 @@ class Main extends Component {
       return <Redirect to="/login" />
     }
     //查看state中有没有user._id信息
-    const { user } = this.props;
+    const { user, unReadCount } = this.props;
 
     //如果，没有，返回null
     if (!user._id) {
@@ -113,7 +113,7 @@ class Main extends Component {
           <Route component={Notfound}></Route>
         </Switch>
 
-        {currentNav ? <NavFooter navList={this.navList}></NavFooter> : null}
+        {currentNav ? <NavFooter navList={this.navList} unReadCount={unReadCount}></NavFooter> : null}
       </div>
     )
   }
@@ -121,7 +121,8 @@ class Main extends Component {
 export default connect(
   state => {
     return {
-      user: state.user
+      user: state.user,
+      unReadCount: state.chat.unReadCount
     }
   },
   { getUser }
