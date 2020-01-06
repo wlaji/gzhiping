@@ -1,5 +1,5 @@
 import axios from "axios";
-let baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:8000' : 'https://sticker.gs-souvenir.com';
+let baseUrl = process.env.NODE_ENV === 'development' ? 'http://192.168.10.131:8000' : 'https://sticker.gs-souvenir.com';
 let timeOut = 20000;
 
 // 基本配置
@@ -90,11 +90,12 @@ const put = (url, params) => {
   });
 };
 
-const get = url => {
+const get = (url,params) => {
   return new Promise((resolve, reject) => {
     axios({
       method: "get",
-      url: url
+      url: url,
+      params: params
     })
       .then(res => {
         resolve(res);

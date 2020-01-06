@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import Cookies from 'js-cookie'
 import {
   NavBar
 } from 'antd-mobile'
-
+import './main.less'
 
 import LaobanInfo from '../laoban-info/laoban-info'
 import DashenInfo from '../dashen-info/dashen-info'
@@ -13,10 +14,11 @@ import Dashen from '../dashen/dashen'
 import Laoban from '../laoban/laoban'
 import Message from '../message/message'
 import Personal from '../personal/personal'
+import Chat from '../chat/chat'
 import Notfound from '../../components/not-found/not-found'
 import NavFooter from '../../components/nav-footer/nav-footer'
 
-import Cookies from 'js-cookie'
+
 import { getRedirectTo } from '../../utils/index'
 import { getUser } from '../../redux/actions'
 
@@ -24,14 +26,14 @@ class Main extends Component {
   navList = [
     {
       path: '/laoban',
-      component: Laoban,
+      component: Dashen,
       title: "大神列表",
       icon: 'dashen',
       text: '大神'
     },
     {
       path: '/dashen',
-      component: Dashen,
+      component: Laoban,
       title: "老板列表",
       icon: 'laoban',
       text: '老板'
@@ -55,7 +57,6 @@ class Main extends Component {
   componentDidMount() {
     //登录过，但是没有登录信息，发请求获取对应的user
     const userid = Cookies.get('userid');
-    console.log(userid)
     const { _id } = this.props.user;
     if (userid && !_id) {
       this.props.getUser();
@@ -70,7 +71,7 @@ class Main extends Component {
       return <Redirect to="/login" />
     }
     //查看state中有没有user._id信息
-    const { user } = this.props;
+    const { user, unReadCount } = this.props;
 
     //如果，没有，返回null
     if (!user._id) {
@@ -99,7 +100,7 @@ class Main extends Component {
 
     return (
       <div>
-        {currentNav ? <NavBar>{currentNav.title}</NavBar> : null}
+        {currentNav ? <NavBar className="sticky-header">{currentNav.title}</NavBar> : null}
         <Switch>
           {
             navList.map((nav, index) => {
@@ -108,10 +109,11 @@ class Main extends Component {
           }
           <Route path="/laobaninfo" component={LaobanInfo}></Route>
           <Route path="/dasheninfo" component={DashenInfo}></Route>
+          <Route path="/chat/:userid" component={Chat}></Route>
           <Route component={Notfound}></Route>
         </Switch>
 
-        {currentNav ? <NavFooter navList={this.navList}></NavFooter> : null}
+        {currentNav ? <NavFooter navList={this.navList} unReadCount={unReadCount}></NavFooter> : null}
       </div>
     )
   }
@@ -119,7 +121,8 @@ class Main extends Component {
 export default connect(
   state => {
     return {
-      user: state.user
+      user: state.user,
+      unReadCount: state.chat.unReadCount
     }
   },
   { getUser }
