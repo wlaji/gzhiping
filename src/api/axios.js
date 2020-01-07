@@ -1,5 +1,5 @@
 import axios from "axios";
-let baseUrl = process.env.NODE_ENV === 'development' ? 'http://192.168.10.131:8000' : 'https://sticker.gs-souvenir.com';
+let baseUrl = process.env.REACT_APP_INTERFACE_ADDRESS;
 let timeOut = 20000;
 
 // 基本配置

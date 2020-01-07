@@ -21,7 +21,7 @@ import {
 
 function initIO(dispatch, userid) {
   if (!IO.socket) {
-    IO.socket = IO('ws://192.168.10.131:8000');
+    IO.socket = IO(process.env.REACT_APP_SOCKET_ADDRESS);
     IO.socket.on('receiveMsg', function (chatMsg) {
       if (userid === chatMsg.from || userid === chatMsg.to) {
         dispatch(receiveMsg({ chatMsg, userid }))
